@@ -1,16 +1,23 @@
+from __future__ import annotations
+
 from enum import Enum
+
 
 class CoordinateHandedness(Enum):
     """
     Enum defining the coordinate handedness.
 
-    Attributes:
+    With the hand of this handedness, the thumb, index finger, and middle
+    finger point along the positive X, Y, and Z axes respectively.
+
+    Attributes
     ----------
-    RIGHT: str
+    RIGHT : str
         Right-handed coordinate system.
-    LEFT: str
+    LEFT : str
         Left-handed coordinate system.
     """
+
     RIGHT = "right"
     LEFT = "left"
 
@@ -21,7 +28,7 @@ class CoordinateHandedness(Enum):
 
         Returns
         -------
-        bool:
+        bool
             True if the coordinate handedness is right-handed, False otherwise.
         """
         return self == CoordinateHandedness.RIGHT
@@ -33,7 +40,7 @@ class CoordinateHandedness(Enum):
 
         Returns
         -------
-        bool:
+        bool
             True if the coordinate handedness is left-handed, False otherwise.
         """
         return self == CoordinateHandedness.LEFT
@@ -41,15 +48,15 @@ class CoordinateHandedness(Enum):
     @property
     def cross_product_value(self) -> int:
         """
-        Get the value of the cross product.
+        Get the sign applied to cross products in this handedness.
 
         Returns
         -------
-        int:
-            The value of the cross product.
+        int
+            1 for right-handed and -1 for left-handed.
         """
         match self:
-            case self.RIGHT:
+            case CoordinateHandedness.RIGHT:
                 return 1
-            case self.LEFT:
+            case CoordinateHandedness.LEFT:
                 return -1

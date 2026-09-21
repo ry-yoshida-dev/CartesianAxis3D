@@ -1,23 +1,33 @@
+from __future__ import annotations
+
 from enum import Enum
+
+from .axis import Axis
 from .coordinate_system import CartesianCoordinateSystem
 from .handedness import CoordinateHandedness
 from .orientation import AxisOrientation
 
+
 class SoftwareCoordinateSystem(Enum):
     """
-    Enum defining the modeling tools.
+    Enum defining the coordinate system conventions of software tools.
 
-    Attributes:
+    Attributes
     ----------
-    BLENDER: str
-        Blender.
-    UNREAL_ENGINE: str
-        Unreal Engine.
-    UNITY: str
-    AUTOCAD: str
-    PLOTLY: str
-    OPENCV: str
+    BLENDER : str
+        Blender (right-handed, Z-up).
+    UNREAL_ENGINE : str
+        Unreal Engine (left-handed, Z-up, X-forward).
+    UNITY : str
+        Unity (left-handed, Y-up, Z-forward).
+    AUTOCAD : str
+        AutoCAD (right-handed, Z-up).
+    PLOTLY : str
+        Plotly (right-handed, Z-up, X-forward).
+    OPENCV : str
+        OpenCV camera coordinates (right-handed, Z-forward).
     """
+
     BLENDER = "blender"
     UNREAL_ENGINE = "unreal engine"
     UNITY = "unity"
@@ -28,64 +38,57 @@ class SoftwareCoordinateSystem(Enum):
     @property
     def coordinate_system(self) -> CartesianCoordinateSystem:
         """
-        Get the coordinate system.
+        Get the coordinate system of the software.
 
         Returns
         -------
-        CartesianCoordinateSystem:
+        CartesianCoordinateSystem
             The coordinate system.
         """
-        coordinate_handedness = self.coordinate_handedness
-        axis_orientation = self.axis_orientation
-
         return CartesianCoordinateSystem(
-            coordinate_handedness=coordinate_handedness, 
-            axis_orientation=axis_orientation
-            )
+            coordinate_handedness=self.coordinate_handedness,
+            axis_orientation=self.axis_orientation,
+        )
 
     @property
     def coordinate_handedness(self) -> CoordinateHandedness:
         """
-        Get the coordinate handedness.
+        Get the coordinate handedness of the software.
 
         Returns
         -------
-        CoordinateHandedness:
+        CoordinateHandedness
             The coordinate handedness.
         """
-        from .handedness import CoordinateHandedness
         match self:
-            case self.BLENDER | self.PLOTLY | self.OPENCV:
+            case (
+                SoftwareCoordinateSystem.BLENDER
+                | SoftwareCoordinateSystem.AUTOCAD
+                | SoftwareCoordinateSystem.PLOTLY
+                | SoftwareCoordinateSystem.OPENCV
+            ):
                 return CoordinateHandedness.RIGHT
-            case self.UNREAL_ENGINE | self.UNITY | self.AUTOCAD:
-                raise NotImplementedError("Not implemented")
+            case (
+                SoftwareCoordinateSystem.UNREAL_ENGINE | SoftwareCoordinateSystem.UNITY
+            ):
+                return CoordinateHandedness.LEFT
 
     @property
     def axis_orientation(self) -> AxisOrientation:
         """
-        Get the axis orientation.
+        Get the axis orientation of the software.
 
         Returns
         -------
-        AxisOrientation:
+        AxisOrientation
             The axis orientation.
         """
-        from .axis import Axis
         match self:
-            case self.PLOTLY:
-                return AxisOrientation(
-                    forward=Axis.X,
-                    right=Axis.Y,
-                    up=Axis.Z
-                    )
-            case self.OPENCV:
-                return AxisOrientation(
-                    forward=Axis.Z,
-                    right=Axis.X,
-                    up=Axis.Y
-                    )
-            case self.UNREAL_ENGINE | self.UNITY | self.AUTOCAD | self.BLENDER:
-                raise NotImplementedError("Not implemented")
-
-
-
+            case SoftwareCoordinateSystem.BLENDER | SoftwareCoordinateSystem.AUTOCAD:
+                return AxisOrientation(forward=Axis.Y, right=Axis.X, up=Axis.Z)
+            case (
+                SoftwareCoordinateSystem.UNREAL_ENGINE | SoftwareCoordinateSystem.PLOTLY
+            ):
+                return AxisOrientation(forward=Axis.X, right=Axis.Y, up=Axis.Z)
+            case SoftwareCoordinateSystem.UNITY | SoftwareCoordinateSystem.OPENCV:
+                return AxisOrientation(forward=Axis.Z, right=Axis.X, up=Axis.Y)

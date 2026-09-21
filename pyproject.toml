@@ -9,7 +9,7 @@ authors = [
   { name="Ryuto Yoshida"},
 ]
 description = "Utilities for 3D Cartesian coordinate systems: axis definitions, orientations, handedness, and software-specific conventions."
-readme = "src/cartesian_axis/README.md"
+readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -33,10 +33,14 @@ where = ["src"]
 [tool.setuptools.package-data]
 cartesian_axis = ["py.typed"]
 
+[project.optional-dependencies]
+dev = ["pytest", "mypy", "ruff"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "RUF"]
+
+[tool.mypy]
+strict = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-
-[dependency-groups]
-dev = [
-    "pytest>=9.1.1",
-]

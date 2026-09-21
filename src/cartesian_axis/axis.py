@@ -1,21 +1,25 @@
 from __future__ import annotations
-import numpy as np
+
 from enum import Enum
+
+import numpy as np
 from numpy.typing import NDArray
+
 
 class Axis(Enum):
     """
     Enum defining the three axes (X, Y, Z) in a 3D coordinate system.
-    
-    Attributes:
+
+    Attributes
     ----------
-    X: str
+    X : str
         X-axis.
-    Y: str
+    Y : str
         Y-axis.
-    Z: str
+    Z : str
         Z-axis.
     """
+
     X = "X"
     Y = "Y"
     Z = "Z"
@@ -23,7 +27,7 @@ class Axis(Enum):
     @property
     def other_axes(self) -> tuple[Axis, Axis]:
         """
-        Get the other axes.
+        Get the other two axes in X/Y/Z order.
 
         Returns
         -------
@@ -41,12 +45,12 @@ class Axis(Enum):
     @property
     def to_index(self) -> int:
         """
-        Get the index of the axis.
+        Get the index of the axis in X/Y/Z order.
 
         Returns
         -------
         int
-            The index of the axis.
+            0 for X, 1 for Y, and 2 for Z.
         """
         match self:
             case Axis.X:
@@ -57,22 +61,24 @@ class Axis(Enum):
                 return 2
 
     @classmethod
-    def from_index(
-        cls, 
-        index: int
-        ) -> Axis:
+    def from_index(cls, index: int) -> Axis:
         """
-        Get the axis from the index.
+        Get the axis from its index in X/Y/Z order.
 
         Parameters
         ----------
-        index: int
+        index : int
             The index of the axis.
 
         Returns
         -------
         Axis
             The axis.
+
+        Raises
+        ------
+        ValueError
+            If the index is not 0, 1, or 2.
         """
         match index:
             case 0:
@@ -82,32 +88,18 @@ class Axis(Enum):
             case 2:
                 return Axis.Z
             case _:
-                raise ValueError(f"Invalid index: {index}")
+                raise ValueError(f"Invalid axis index: {index}")
 
     @property
     def unit_vector(self) -> NDArray[np.float64]:
         """
-        Get the unit vector of the axis.
-        
+        Get the unit vector pointing in the positive direction of the axis.
+
         Returns
         -------
-        np.ndarray
-            The unit vector of the axis.
+        NDArray[np.float64]
+            The unit vector of shape (3,).
         """
-        match self:
-            case Axis.X:
-                return np.array([1.0, 0.0, 0.0], dtype=np.float64)
-            case Axis.Y:
-                return np.array([0.0, 1.0, 0.0], dtype=np.float64)
-            case Axis.Z:
-                return np.array([0.0, 0.0, 1.0], dtype=np.float64)
-
-
-    
-
-if __name__ == "__main__":
-    axis = Axis.X
-    print(f"axis.other_axes: {axis.other_axes}")
-    print(f"axis.to_index: {axis.to_index}")
-    axis = Axis.from_index(0)
-    print(f"axis: {axis}")
+        unit_vector: NDArray[np.float64] = np.zeros(3, dtype=np.float64)
+        unit_vector[self.to_index] = 1.0
+        return unit_vector

@@ -43,7 +43,7 @@ def test_from_index_round_trips_with_to_index(axis: Axis) -> None:
 @pytest.mark.parametrize("invalid_index", [-1, 3, 100])
 def test_from_index_rejects_out_of_range_index(invalid_index: int) -> None:
     """`from_index` raises `ValueError` for indices outside 0..2."""
-    with pytest.raises(ValueError, match="Invalid index"):
+    with pytest.raises(ValueError, match="Invalid axis index"):
         _ = Axis.from_index(invalid_index)
 
 

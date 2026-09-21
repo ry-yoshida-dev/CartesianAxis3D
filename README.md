@@ -2,7 +2,7 @@
 
 ## Overview
 
-`cartesian_axis` is a Python package for **3D Cartesian coordinate systems**: axis enums, **handedness**, **axis orientation** (forward / right / up mapped to X, Y, Z), `CartesianCoordinateSystem`.
+`cartesian_axis` is a Python package for **3D Cartesian coordinate systems**: axis enums, **handedness**, **axis orientation** (forward / right / up mapped to X, Y, Z), `CartesianCoordinateSystem`, and predefined conventions of software tools.
 
 See [src/cartesian_axis/README.md](src/cartesian_axis/README.md) for package details.
 
@@ -11,32 +11,24 @@ See [src/cartesian_axis/README.md](src/cartesian_axis/README.md) for package det
 From the project root:
 
 ```bash
-pip install -e .
+pip install -e ".[dev]"
 ```
 
 ## Usage
 
 ```python
-from cartesian_axis import (
-    Axis,
-    AxisOrientation,
-    CartesianCoordinateSystem,
-    CoordinateHandedness,
-    SoftwareCoordinateSystem,
-)
+from cartesian_axis import SoftwareCoordinateSystem
 
-orientation = AxisOrientation(forward=Axis.X, right=Axis.Y, up=Axis.Z)
-system = CartesianCoordinateSystem(
-    coordinate_handedness=CoordinateHandedness.RIGHT,
-    axis_orientation=orientation,
+opencv_system = SoftwareCoordinateSystem.OPENCV.coordinate_system
+indices = opencv_system.get_converting_indices(
+    software_coordinate_system=SoftwareCoordinateSystem.PLOTLY
 )
 ```
 
-## Testing
+## Development
 
 ```bash
-pip install -e . pytest
-python -m pytest
+pytest
+mypy src tests
+ruff check src tests
 ```
-
-See [tests/README.md](tests/README.md) for what the suite covers.
