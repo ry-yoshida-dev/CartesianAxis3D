@@ -31,3 +31,12 @@ system = CartesianCoordinateSystem(
     axis_orientation=orientation,
 )
 ```
+
+## Testing
+
+```bash
+pip install -e . pytest
+python -m pytest
+```
+
+See [tests/README.md](tests/README.md) for what the suite covers.

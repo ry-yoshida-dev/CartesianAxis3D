@@ -32,3 +32,11 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 cartesian_axis = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

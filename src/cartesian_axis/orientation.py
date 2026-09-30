@@ -12,6 +12,17 @@ class AxisOrientation:
     """
     A class representing the orientation of the axes.
 
+    Each field says which Cartesian axis fills a role. The role names come
+    from the Fleming-style finger mnemonic, not from screen or world
+    directions: with the thumb, index finger, and middle finger held at right
+    angles along the positive axes, the thumb is ``right``, the index finger
+    is ``up``, and the middle finger is ``forward``.
+
+    For example, OpenCV is ``right=X, up=Y, forward=Z``: the right hand's
+    thumb, index finger, and middle finger lie along +X, +Y, and +Z. +Y
+    points toward the bottom of the image, but it is still the ``up`` axis
+    under this convention; it must not be renamed to "down" or negated.
+
     Parameters
     ----------
     forward: Axis

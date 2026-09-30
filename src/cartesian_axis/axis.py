@@ -96,11 +96,11 @@ class Axis(Enum):
         """
         match self:
             case Axis.X:
-                return np.array([1, 0, 0])
+                return np.array([1.0, 0.0, 0.0], dtype=np.float64)
             case Axis.Y:
-                return np.array([0, 1, 0])
+                return np.array([0.0, 1.0, 0.0], dtype=np.float64)
             case Axis.Z:
-                return np.array([0, 0, 1])
+                return np.array([0.0, 0.0, 1.0], dtype=np.float64)
 
 
     
