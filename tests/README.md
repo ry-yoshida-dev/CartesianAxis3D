@@ -2,7 +2,7 @@
 
 ## Overview
 
-Unit tests for the `cartesian_axis` package. Run with `pytest` from the project root.
+Unit tests for the `cartesian_axis` package.
 
 ## Components
 

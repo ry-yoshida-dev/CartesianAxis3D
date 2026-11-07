@@ -20,8 +20,9 @@ A coordinate system is described by two independent parts:
 | [handedness.py](./handedness.py) | Enum of right-handed and left-handed coordinates. |
 | [coordinate_system.py](./coordinate_system.py) | Cartesian coordinate system combining handedness and axis orientation. |
 | [software_coordinate_system.py](./software_coordinate_system.py) | Conventions of Blender, Unreal Engine, Unity, AutoCAD, Plotly, and OpenCV. |
+| [py.typed](./py.typed) | PEP 561 marker for type checkers. |
 
-## Example
+## Examples
 
 ```python
 import numpy as np
@@ -45,5 +46,3 @@ indices = system.get_converting_indices(
 points = np.array([[1.0, 2.0, 3.0]])
 points_for_plotly = points[:, indices]
 ```
-
-`get_converting_indices` only permutes axes; it does not flip signs.
