@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+from numpy.typing import NDArray
 
 from cartesian_axis import Axis, AxisVectors
 
@@ -8,7 +9,7 @@ class TestAxisVectors:
     """Tests for AxisVectors."""
 
     def test_from_array_copies_input(self) -> None:
-        array: np.ndarray[tuple[int, int], np.dtype[np.float64]] = np.eye(3)
+        array: NDArray[np.float64] = np.eye(3)
         axis_vectors: AxisVectors = AxisVectors.from_array(array)
         array[0, 0] = 5.0
         np.testing.assert_array_equal(axis_vectors.get(Axis.X), [1.0, 0.0, 0.0])
